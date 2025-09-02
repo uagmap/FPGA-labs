@@ -1,0 +1,115 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 64-Bit
+# Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Full Version
+# Date created = 14:18:24  October 23, 2024
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		top_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone II"
+set_global_assignment -name DEVICE EP2C20F484C7
+set_global_assignment -name TOP_LEVEL_ENTITY top
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "14:18:24  OCTOBER 23, 2024"
+set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name VHDL_FILE clock_div.vhd
+set_global_assignment -name VHDL_FILE stream_codec.vhd
+set_global_assignment -name VHDL_FILE ram_codec_fsm.vhd
+set_global_assignment -name VHDL_FILE i2c_codec.vhd
+set_global_assignment -name BDF_FILE top.bdf
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_location_assignment PIN_B6 -to ADCDAT
+set_location_assignment PIN_A4 -to BCLK
+set_location_assignment PIN_G17 -to BCLK_TEST
+set_location_assignment PIN_AB5 -to CE
+set_location_assignment PIN_L1 -to CLK
+set_location_assignment PIN_B5 -to DACDAT
+set_location_assignment PIN_P17 -to DACDAT_TEST
+set_location_assignment PIN_A5 -to DACLRC
+set_location_assignment PIN_J15 -to DACLRC_TEST
+set_location_assignment PIN_A3 -to I2C_SCL
+set_location_assignment PIN_B3 -to I2C_SDA
+set_location_assignment PIN_Y7 -to LB
+set_location_assignment PIN_B4 -to MCLK
+set_location_assignment PIN_P18 -to MCLK_TEST
+set_location_assignment PIN_T8 -to OE
+set_location_assignment PIN_R21 -to PLAY
+set_location_assignment PIN_Y5 -to RAM_ADDR[17]
+set_location_assignment PIN_Y6 -to RAM_ADDR[16]
+set_location_assignment PIN_T7 -to RAM_ADDR[15]
+set_location_assignment PIN_R10 -to RAM_ADDR[14]
+set_location_assignment PIN_U10 -to RAM_ADDR[13]
+set_location_assignment PIN_Y10 -to RAM_ADDR[12]
+set_location_assignment PIN_T11 -to RAM_ADDR[11]
+set_location_assignment PIN_R11 -to RAM_ADDR[10]
+set_location_assignment PIN_W11 -to RAM_ADDR[9]
+set_location_assignment PIN_V11 -to RAM_ADDR[8]
+set_location_assignment PIN_AB11 -to RAM_ADDR[7]
+set_location_assignment PIN_AA11 -to RAM_ADDR[6]
+set_location_assignment PIN_AB10 -to RAM_ADDR[5]
+set_location_assignment PIN_AA5 -to RAM_ADDR[4]
+set_location_assignment PIN_AB4 -to RAM_ADDR[3]
+set_location_assignment PIN_AA4 -to RAM_ADDR[2]
+set_location_assignment PIN_AB3 -to RAM_ADDR[1]
+set_location_assignment PIN_AA3 -to RAM_ADDR[0]
+set_location_assignment PIN_U8 -to RAM_DATA[15]
+set_location_assignment PIN_V8 -to RAM_DATA[14]
+set_location_assignment PIN_W8 -to RAM_DATA[13]
+set_location_assignment PIN_R9 -to RAM_DATA[12]
+set_location_assignment PIN_U9 -to RAM_DATA[11]
+set_location_assignment PIN_V9 -to RAM_DATA[10]
+set_location_assignment PIN_W9 -to RAM_DATA[9]
+set_location_assignment PIN_Y9 -to RAM_DATA[8]
+set_location_assignment PIN_AB9 -to RAM_DATA[7]
+set_location_assignment PIN_AA9 -to RAM_DATA[6]
+set_location_assignment PIN_AB8 -to RAM_DATA[5]
+set_location_assignment PIN_AA8 -to RAM_DATA[4]
+set_location_assignment PIN_AB7 -to RAM_DATA[3]
+set_location_assignment PIN_AA7 -to RAM_DATA[2]
+set_location_assignment PIN_AB6 -to RAM_DATA[1]
+set_location_assignment PIN_AA6 -to RAM_DATA[0]
+set_location_assignment PIN_R22 -to RST
+set_location_assignment PIN_H18 -to SCL_TEST
+set_location_assignment PIN_H17 -to SDA_TEST
+set_location_assignment PIN_N22 -to START
+set_location_assignment PIN_W7 -to UB
+set_location_assignment PIN_A12 -to USB_CLK
+set_location_assignment PIN_AA10 -to WE

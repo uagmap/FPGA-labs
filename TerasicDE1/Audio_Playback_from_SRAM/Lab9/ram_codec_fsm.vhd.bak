@@ -1,0 +1,146 @@
+--an array is a collection of elements of the same type
+--TYPE type_name IS ARRAY (range_specs) OF element_type;
+--TYPE type1 IS ARRAY (NATURAL RANGE <>) OF STD_logic;
+--CONSTANT const1 : type1(4 downto 0) := "01010";
+--
+--
+
+-- add IEEE library and packages: std_logic_1164 and std_logic_arith
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+USE ieee.std_logic_arith.all;
+
+entity ram_codec_fsm is  --... specify entity interface
+	generic(RAM_SIZE	:	natural := 0);
+    port (
+        clk					: in std_logic;
+        rst					: in std_logic;
+        play				: in std_logic;
+		  left_right		: in std_logic; --connects the daclrc output of the stream codec. Low->High means to retrieve next audio sample from SRM
+		  codec_idle		: in std_logic; --
+		  codec_start		: out std_logic;
+		  reg_addr			: out std_logic_vector(6 downto 0);
+		  reg_data			: out std_logic_vector(8 downto 0);
+		  left_out			: out std_logic_vector(15 downto 0);
+		  right_out			: out std_logic_vector(15 downto 0);
+		  CE					: out std_logic;
+		  WE					: out std_logic;
+		  OE					: out std_logic;
+		  UB					: out std_logic;
+		  LB					: out std_logic;
+		  ram_addr			: out std_logic_vector(17 downto 0); --address of the next audio sample to be retrieved from the memory
+		  ram_data			: inout std_logic_vector(15 downto 0)); --content of the SRAM location pointed
+end ram_codec_fsm;
+
+architecture behavioral of ram_codec_fsm is
+    type TState is (idle, config0, wait0, wait1, config1, read_ram0, read_ram1, read_ram2, read_ram3);
+    signal state : TState;
+    signal left_right_1 : std_logic;
+    constant ROM_SIZE : natural := 9; -- for number of configuration entries--check this number
+    type memory is array (NATURAL range 0 to ROM_SIZE-1) of std_logic_vector(15 downto 0);
+    constant config_rom : memory := (
+        "0001111000000000", -- Reset reg.
+        "0000111000000010", -- Digital Audio Interface Format reg.
+        "0000101000010001", -- Digital Audio Path Control reg.
+        "0001000000001101", -- Sampling Control reg. (8 kHz, USB mode)
+        "0001001000000001", -- Active reg.
+        "0000100000010000", -- Analogue Audio Path Control reg.
+        "0000110000000000", -- Power Down Control reg.
+        "0000000000011000", -- Left Line In reg.
+        "0000001000011000"  -- Right Line In reg.
+    );
+
+BEGIN
+    PROCESS(clk, rst)
+        variable rom_ptr : natural := 0;
+        variable ram_ptr : natural := 0;
+        variable data_reg : std_logic_vector(15 downto 0);
+    BEGIN
+        IF (rst = '0') THEN
+            -- assign initial values to signals and variables
+				state <= idle;
+				rom_ptr := 0;
+				ram_ptr := 0;
+				CE <= '1'; --disable SRAM chip
+				codec_start <= '0';
+				left_out <= (others => '0');--reset outputs
+				right_out <= (others => '0');
+				
+        ELSIF (clk'EVENT AND clk = '1') THEN
+            CASE state IS
+                WHEN idle =>
+                    CE <= '0'; -- enable SRAM chip
+                    IF (play = '1') THEN
+                        state <= config0;
+                    ELSE
+                        state <= idle;
+                    END IF;
+
+                WHEN config0 =>  -- read codec config. info from ROM
+                    data_reg := config_rom(rom_ptr); --not sure
+                    reg_addr <= data_reg(15 downto 9); -- first seven bits are address
+                    reg_data <= data_reg(8 downto 0);
+                    codec_start <= '1';
+                    state <= wait0;
+
+                WHEN wait0 =>  -- wait until i2c_codec starts transmission
+                    IF (codec_idle = '1') THEN
+                        state <= wait1;
+                    ELSE
+                        state <= wait0;
+                    END IF;
+
+                WHEN wait1 =>  -- wait for i2c_codec to finish transmission
+                    IF (codec_idle = '0') THEN
+                        state <= config1;
+                        codec_start <= '0'; --clear start signal
+                    ELSE
+                        state <= wait1;
+                    END IF;
+
+                WHEN config1 =>  -- check if ROM has been fully read
+                    rom_ptr := rom_ptr + 1;  -- increment pointer
+                    IF rom_ptr = ROM_SIZE THEN
+                        ram_ptr := 0;  -- reset ram address ptr
+                        state <= read_ram0;
+                    ELSE
+                        state <= config0;
+                    END IF;
+
+                WHEN read_ram0 =>
+                    -- retrieve audio samples at the sampling rate
+                    IF (left_right = '1' AND left_right_1 = '0') THEN --low-to-high transiition indicates to retreive next sample
+                        ram_addr <= conv_std_logic_vector(ram_ptr, 18);  -- output address --where do i read from????
+                        WE <= '1';        -- read operation
+                        ram_data <= (others => 'Z');  -- place data bus in high impedance during read
+                        state <= read_ram1;
+                    ELSE
+                        state <= read_ram0;
+                    END IF;
+                    left_right_1 <= left_right; --store previous value for comparing
+
+                WHEN read_ram1 =>
+                    OE <= '0'; -- enable SRAM outputs
+                    UB <= '0'; -- enable SRAM outputs
+                    LB <= '0'; -- enable SRAM outputs
+                    state <= read_ram2;
+
+                WHEN read_ram2 =>
+                    data_reg := ram_data; -- read SRAM output into register
+                    state <= read_ram3;
+
+                WHEN read_ram3 =>
+                    OE <= '1'; -- disable SRAM outputs
+                    UB <= '1'; -- disable SRAM outputs
+                    LB <= '1'; -- disable SRAM outputs
+                    left_out <= data_reg;
+                    right_out <= data_reg;
+                    ram_ptr := ram_ptr + 1; -- increment pointer
+                    IF ram_ptr = RAM_SIZE THEN
+                        ram_ptr := 0;
+                    END IF;
+                    state <= read_ram0;
+            END CASE;
+        END IF;
+    END PROCESS;
+END behavioral;
