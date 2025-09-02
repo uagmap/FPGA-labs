@@ -1,0 +1,53 @@
+%this module is a state machine of soda vending. It defines the state of the machine and counts input coins%
+SUBDESIGN miniproject
+(
+	clock								:	INPUT;
+	en									: 	INPUT;	--enable line for state machine
+	RSTn								:	INPUT;	--asynchronous reset active low
+	coins[7..0]						:	INPUT;
+	A, B, C							:	INPUT;	--soda choice
+	A_O, B_O, C_O					:	OUTPUT;	--which soda is dispenced
+	
+)
+VARIABLE
+	seq				:	MACHINE
+							WITH STATES	(
+							idle,																															--start/reset state
+							put_coins,																													--waiting for input money
+							soda_choice																													--wait for choice and dispence soda can
+							);
+	
+	
+BEGIN
+	seq.clk = clock;
+	seq.reset = RSTn;
+	seq.ena = en;
+	
+	CASE seq IS 
+		WHEN idle =>								--set everything to 0 and proceed to next state
+			A_O = GND;
+			B_O = GND;
+			C_O = GND;
+			--coins[] = GND;
+			seq = put_coins;				
+			
+		
+		WHEN put_coins =>							--count coins until we get 70, then proceed to next state
+			IF coins[] >= 70 THEN
+				seq = soda_choice;
+			ELSE
+				seq = put_coins;
+			END IF;											
+		
+		WHEN soda_choice => 						--get soda input and turn on soda line, which is sent to 10 second countdown
+			IF A THEN 								--the countdown module then activates the reset line of the state machine and sends it back to idle
+				A_O = VCC;
+			ELSIF B THEN 
+				B_O = VCC;
+			ELSIF C THEN
+				C_O = VCC;
+			ELSE
+			seq = soda_choice;
+			END IF;
+	END CASE;	
+END;

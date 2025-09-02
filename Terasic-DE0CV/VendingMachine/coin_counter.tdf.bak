@@ -1,0 +1,16 @@
+SUBDESIGN coin_counter
+(
+	clock				:	INPUT;			
+	en					:	INPUT;			--enable line
+	RSTn				:	INPUT;			--clear counter
+	D, Q, I, N		:	INPUT;			--coin input
+	coin_sum[7..0]	:	OUTPUT;			--coin amount output
+)
+
+VARIABLE
+	coin_sum[7..0]	:	DFFE;
+	
+BEGIN
+	coin_sum[].clk = clock;
+	coin_sum[].ena = en;
+	coin_sum[].clrn = !RSTn;

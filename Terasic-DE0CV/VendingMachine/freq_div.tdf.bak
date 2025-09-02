@@ -1,0 +1,29 @@
+%	Divide by N.
+Thie module will divide the clock by N where N is an external 10 bit number. 
+It counts down from N to 1 and then recycles to N. The number 1 is decoded and 
+used to drive terminal count (TC) output when enabled.
+
+Lab 8
+ECET 22900
+NS Widmer
+Fall 2020
+%
+SUBDESIGN freq_div
+(	clock, Enable		:INPUT;	
+	TC, clkout						:OUTPUT;	)
+	
+VARIABLE	
+	scale[25..0]			:DFF;
+BEGIN
+	scale[].clk = clock;
+	IF scale[].Q == 0 THEN scale[].d = 50000000[];
+	ELSIF !Enable THEN	
+		scale[].d = scale[].q;		-- hold
+	ELSIF scale[].q == 1 THEN
+		scale[].d = 50000000;				-- Load N
+		TC = vcc;						-- activate terminal count
+	ELSE 
+		scale[].d = scale[].q - 1;	-- decrement count
+	END IF;
+	clkout = clock;					-- provide the clock signal on an output
+END;

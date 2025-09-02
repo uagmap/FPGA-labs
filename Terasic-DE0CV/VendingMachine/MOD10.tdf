@@ -1,0 +1,29 @@
+--COUNTDOWN 10 seconds module
+SUBDESIGN MOD10
+(
+	loadn, clrn, clk, en	:INPUT;
+	ones[3..0], RCO, zero				:OUTPUT;
+)
+VARIABLE
+	count[3..0]								:DFF;
+	
+BEGIN
+	count[].clk = clk;
+	count[].clrn = !clrn;				--clear the counter async
+		
+		IF loadn == 0 THEN 
+			count[].d = 9;				--load the counter
+		ELSIF !en THEN 
+			count[].d = count[].q;	--hold
+		ELSIF count[].q == 0 THEN 
+			count[].d = 9;				--reset to 9
+			RCO = VCC;					--cascade output
+		ELSE 
+			count[].d = count[].q - 1;				--increment
+		END IF;
+--	
+		IF count[] == 0 THEN 
+			zero = VCC;				--ungated decode of 0
+		END IF;
+		ones[] = count[];
+END;
