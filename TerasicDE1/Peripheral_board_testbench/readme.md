@@ -1,0 +1,1 @@
+This is a comprehensive test bench for FPGA peripheral extention board project. This project is used to verify correct hardware operation of I2C and SPI wiring, PS2, ADC/DAC, external clock and IO devices (switches, LEDs), as well as an audio codec.
