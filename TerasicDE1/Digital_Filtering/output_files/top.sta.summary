@@ -1,0 +1,125 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow Model Setup 'stream_codec:inst1|bclk_sig'
+Slack : -13.011
+TNS   : -1286.315
+
+Type  : Slow Model Setup 'clock_div:inst3|clk_div_sig'
+Slack : -4.667
+TNS   : -320.616
+
+Type  : Slow Model Setup 'stream_codec:inst1|mclk_sig'
+Slack : -2.067
+TNS   : -28.942
+
+Type  : Slow Model Setup 'CLK'
+Slack : -2.053
+TNS   : -15.493
+
+Type  : Slow Model Setup 'USB_CLK'
+Slack : 2.448
+TNS   : 0.000
+
+Type  : Slow Model Hold 'CLK'
+Slack : -2.702
+TNS   : -2.702
+
+Type  : Slow Model Hold 'stream_codec:inst1|mclk_sig'
+Slack : -2.261
+TNS   : -2.261
+
+Type  : Slow Model Hold 'USB_CLK'
+Slack : -2.196
+TNS   : -2.196
+
+Type  : Slow Model Hold 'stream_codec:inst1|bclk_sig'
+Slack : -0.273
+TNS   : -0.273
+
+Type  : Slow Model Hold 'clock_div:inst3|clk_div_sig'
+Slack : 0.445
+TNS   : 0.000
+
+Type  : Slow Model Minimum Pulse Width 'CLK'
+Slack : -1.631
+TNS   : -15.073
+
+Type  : Slow Model Minimum Pulse Width 'USB_CLK'
+Slack : -1.631
+TNS   : -2.853
+
+Type  : Slow Model Minimum Pulse Width 'stream_codec:inst1|bclk_sig'
+Slack : -0.611
+TNS   : -411.814
+
+Type  : Slow Model Minimum Pulse Width 'clock_div:inst3|clk_div_sig'
+Slack : -0.611
+TNS   : -106.314
+
+Type  : Slow Model Minimum Pulse Width 'stream_codec:inst1|mclk_sig'
+Slack : -0.611
+TNS   : -25.662
+
+Type  : Fast Model Setup 'stream_codec:inst1|bclk_sig'
+Slack : -4.099
+TNS   : -332.747
+
+Type  : Fast Model Setup 'clock_div:inst3|clk_div_sig'
+Slack : -1.351
+TNS   : -75.855
+
+Type  : Fast Model Setup 'CLK'
+Slack : -0.211
+TNS   : -0.661
+
+Type  : Fast Model Setup 'stream_codec:inst1|mclk_sig'
+Slack : -0.207
+TNS   : -1.067
+
+Type  : Fast Model Setup 'USB_CLK'
+Slack : 1.466
+TNS   : 0.000
+
+Type  : Fast Model Hold 'CLK'
+Slack : -1.730
+TNS   : -1.730
+
+Type  : Fast Model Hold 'stream_codec:inst1|mclk_sig'
+Slack : -1.425
+TNS   : -1.425
+
+Type  : Fast Model Hold 'USB_CLK'
+Slack : -1.086
+TNS   : -1.086
+
+Type  : Fast Model Hold 'stream_codec:inst1|bclk_sig'
+Slack : -0.153
+TNS   : -0.153
+
+Type  : Fast Model Hold 'clock_div:inst3|clk_div_sig'
+Slack : 0.215
+TNS   : 0.000
+
+Type  : Fast Model Minimum Pulse Width 'CLK'
+Slack : -1.380
+TNS   : -12.380
+
+Type  : Fast Model Minimum Pulse Width 'USB_CLK'
+Slack : -1.380
+TNS   : -2.380
+
+Type  : Fast Model Minimum Pulse Width 'stream_codec:inst1|bclk_sig'
+Slack : -0.500
+TNS   : -337.000
+
+Type  : Fast Model Minimum Pulse Width 'clock_div:inst3|clk_div_sig'
+Slack : -0.500
+TNS   : -87.000
+
+Type  : Fast Model Minimum Pulse Width 'stream_codec:inst1|mclk_sig'
+Slack : -0.500
+TNS   : -21.000
+
+------------------------------------------------------------
