@@ -1,0 +1,25 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity vga_640x480 is
+	port( 
+			clk, rst : in std_logic;
+			hsync		: out std_logic; --sync pulse
+			vsync		: out std_logic;
+			hc			: out std_logic; --horizontal counter
+			vc			: out std_logic; --vertical counter
+			videon	: out std_logic);--high when the pixel scanning is within the display area			
+end vga_640x480;
+
+architecture behavioral of vga_640x480 is 
+begin
+	PROCESS(clk, rst)
+	begin
+		IF (rst = '0') THEN
+				
+      ELSIF (clk'EVENT AND clk = '1') THEN
+		  
+		end if;  
+	end process;
+end behavioral;
